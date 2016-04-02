@@ -51,6 +51,19 @@ def get_page(request):
                 pass
 
 
+def parse_url_page(page):
+    soup = BeautifulSoup(page, "html.parser")
+    jobs = soup.findAll("li", {"class": "job-listing"})
+    return [job.a["href"] for job in jobs]
+
+
+def write_to_file(ls, filename):
+    with open(filename, "a") as f:
+        for entry in ls:
+            f.write(entry + "\n")
+    return None
+
+
 if __name__ == "__main__":
     i = 1
     for url in REQUESTS:
